@@ -1,10 +1,14 @@
 import Book from "./book.model.js"
 export const createBook = async (req, res) => {
+    console.log('inside creaat book')
+    console.log(req.file)
     try {
-        const newBook =  Book({...req.body})
+        const newBook =   Book({...req.body,coverImage:req.file.originalname})
+        console.log(newBook)
         await newBook.save()
         res.status(201).json({
             message:"Book created successfully",
+            file:req.file,
             book:newBook
         })
        } catch (error) {
@@ -13,7 +17,7 @@ export const createBook = async (req, res) => {
             message:"Error creating book",
             error
         })
-        
+         
        }
 }
 

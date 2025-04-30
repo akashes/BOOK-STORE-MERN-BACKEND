@@ -1,7 +1,8 @@
 
 import express from 'express'
-import Book from './book.model.js'
 import { createBook, deleteBook, getAllBooks, getBook, updateBook } from './book.controller.js'
+import verifyAdminToken from '../middleware/verifyAdminToken.js'
+import upload from '../middleware/multerMiddleware.js'
 
 const router = express.Router()
 
@@ -9,15 +10,15 @@ const router = express.Router()
 router.get('/',getAllBooks)
 
 //post a book
-router.post('/',createBook)
+router.post('/',verifyAdminToken,upload.single('coverImage'),createBook)
 
 //get a book
 router.get('/:id',getBook)
 
 //update a book
-router.put('/:id',updateBook)
+router.put('/:id',verifyAdminToken,updateBook)
 
 //delete a book
-router.delete('/:id',deleteBook)
+router.delete('/:id',verifyAdminToken,deleteBook)
 
 export default router
